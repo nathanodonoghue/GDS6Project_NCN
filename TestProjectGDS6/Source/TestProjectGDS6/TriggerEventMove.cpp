@@ -32,7 +32,7 @@ void UTriggerEventMove::BeginPlay()
 
 	if (!PressurePlate)
 	{
-		UE_LOG(Log_Temp, Error, TEXT("%s has the trigger event mov e component on it, but has no trigger volume assigned"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("%s has the trigger event move component on it, but has no trigger volume assigned"), *GetOwner()->GetName());
 	}
 	
 	TriggerActor = GetWorld()->GetFirstPlayerController()->GetPawn();
