@@ -2,6 +2,7 @@
 
 
 #include "TestFPSCharacter.h"
+#include "ObjectInteraction.h"
 
 // Sets default values
 ATestFPSCharacter::ATestFPSCharacter()
@@ -37,6 +38,7 @@ void ATestFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &ATestFPSCharacter::LookUpRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &ATestFPSCharacter::LookRightRate);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction(TEXT("Interact"), EInputEvent::IE_Pressed, this, &ATestFPSCharacter::GetObjInter);
 }
 
 void ATestFPSCharacter::MoveForward(float AxisValue) 
@@ -57,5 +59,10 @@ void ATestFPSCharacter::LookUpRate(float AxisValue)
 void ATestFPSCharacter::LookRightRate(float AxisValue) 
 {
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
+
+void ATestFPSCharacter::GetObjInter()
+{
+	
 }
 
