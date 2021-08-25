@@ -38,12 +38,7 @@ void UObjectInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 	if (TriggerArea && TriggerArea->IsOverlappingActor(TriggerActor))
 	{
-		DeleteObject(DeltaTime);
+		
 	}
-}
-
-void UObjectInteraction::DeleteObject(float DeltaTime)
-{
-	
 }
 

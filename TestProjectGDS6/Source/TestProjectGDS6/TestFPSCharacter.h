@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "TestFPSCharacter.generated.h"
 
+class AGauntlet;
+
 UCLASS()
 class TESTPROJECTGDS6_API ATestFPSCharacter : public ACharacter
 {
@@ -14,8 +16,6 @@ class TESTPROJECTGDS6_API ATestFPSCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ATestFPSCharacter();
-
-	void GetObjInter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,6 +34,14 @@ private:
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
 
+	void Attack();
+
 	UPROPERTY(EditAnywhere)
 		float RotationRate = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AGauntlet> WeaponClass;
+
+	UPROPERTY()
+		AGauntlet* Gauntlet;
 };
