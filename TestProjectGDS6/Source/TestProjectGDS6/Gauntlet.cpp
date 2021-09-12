@@ -4,6 +4,8 @@
 #include "Gauntlet.h"
 
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AGauntlet::AGauntlet()
@@ -21,6 +23,29 @@ AGauntlet::AGauntlet()
 void AGauntlet::PullTrigger()
 {
 	UE_LOG(LogTemp, Warning, TEXT("You've been shot!"));
+
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT(""));
+
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) return;
+	AController* OwnerController = OwnerPawn->GetController();
+	if (OwnerController == nullptr) return;
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	FVector End = Location + Rotation.Vector() * MaxRange;
+	// TODO: Add Line Tracing
+
+	FHitResult Hit;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+
+	if (bSuccess) 
+	{
+		FVector ShotDirection = -Rotation.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+	}
 }
 
 // Called when the game starts or when spawned
