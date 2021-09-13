@@ -17,11 +17,17 @@ ATestFPSCharacter::ATestFPSCharacter()
 void ATestFPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	Health = MaxHealth;
+
 	Gauntlet = GetWorld()->SpawnActor<AGauntlet>(WeaponClass);
-	//ObjectInteraction = GetWorld()->
 
 	Gauntlet->SetOwner(this);
+}
+
+bool ATestFPSCharacter::IsDead() const
+{
+	return Health <= 0;
 }
 
 // Called every frame
@@ -46,6 +52,16 @@ void ATestFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &ATestFPSCharacter::Attack);
 
 	//PlayerInputComponent->BindAction(TEXT("Interact"), EInputEvent::IE_Pressed, this, &ATestFPSCharacter::GetObjInter);
+}
+
+float ATestFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageToApply = FMath::Min(Health, DamageToApply);
+	Health -= DamageToApply;
+	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+
+	return DamageToApply;
 }
 
 void ATestFPSCharacter::MoveForward(float AxisValue) 
