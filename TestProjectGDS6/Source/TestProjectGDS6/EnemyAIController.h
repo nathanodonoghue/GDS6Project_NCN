@@ -13,5 +13,8 @@ UCLASS()
 class TESTPROJECTGDS6_API AEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void BeginPlay() override;
 	
 };
