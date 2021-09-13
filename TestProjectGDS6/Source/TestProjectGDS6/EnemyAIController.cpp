@@ -8,9 +8,21 @@
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-
-	SetFocus(PlayerPawn);
-	MoveToActor(PlayerPawn, 200);
 }
 
+void AEnemyAIController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
+	if (LineOfSightTo(PlayerPawn))
+	{
+		MoveToActor(PlayerPawn, AcceptanceRadius);
+		SetFocus(PlayerPawn);
+	}
+	else
+	{
+		ClearFocus(EAIFocusPriority::Gameplay);
+		StopMovement();
+	}
+}
