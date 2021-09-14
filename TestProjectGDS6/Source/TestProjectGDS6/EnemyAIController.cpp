@@ -10,30 +10,30 @@ void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (AIBehavior != nullptr)
-	{
-		RunBehaviorTree(AIBehavior);
+	//if (AIBehavior != nullptr)
+	//{
+		//RunBehaviorTree(AIBehavior);
 
-		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+		//APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 
-		GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
-	}
+		//GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
+	//}
 }
 
 void AEnemyAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	//APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 
-	//if (LineOfSightTo(PlayerPawn))
-	//{
-	//	MoveToActor(PlayerPawn, AcceptanceRadius);
-	//	SetFocus(PlayerPawn);
-	//}
-	//else
-	//{
-	//	ClearFocus(EAIFocusPriority::Gameplay);
-	//	StopMovement();
-	//}
+	if (LineOfSightTo(PlayerPawn))
+	{
+		MoveToActor(PlayerPawn, AcceptanceRadius);
+		SetFocus(PlayerPawn);
+	}
+	else
+	{
+		ClearFocus(EAIFocusPriority::Gameplay);
+		StopMovement();
+	}
 }
