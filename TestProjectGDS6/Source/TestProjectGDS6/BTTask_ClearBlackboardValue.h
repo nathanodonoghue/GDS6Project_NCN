@@ -17,4 +17,7 @@ class TESTPROJECTGDS6_API UBTTask_ClearBlackboardValue : public UBTTask_Blackboa
 public:
 	UBTTask_ClearBlackboardValue();
 
+protected:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
 };
