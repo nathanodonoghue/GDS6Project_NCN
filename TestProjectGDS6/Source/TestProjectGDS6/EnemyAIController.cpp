@@ -35,7 +35,7 @@ void AEnemyAIController::Tick(float DeltaSeconds)
 	}
 	else
 	{
-		GetBlackboardComponent()->ClearValue(TEXT("StartLocation"));
+		GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));
 		//ClearFocus(EAIFocusPriority::Gameplay);
 		//StopMovement();
 	}
