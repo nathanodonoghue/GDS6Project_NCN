@@ -3,7 +3,9 @@
 
 #include "TestFPSCharacter.h"
 #include "Gauntlet.h"
+#include "Components/CapsuleComponent.h"
 #include "ObjectInteraction.h"
+#include "TestProjectGDS6GameModeBase.h"
 
 // Sets default values
 ATestFPSCharacter::ATestFPSCharacter()
@@ -60,6 +62,17 @@ float ATestFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	DamageToApply = FMath::Min(Health, DamageToApply);
 	Health -= DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+
+	if (IsDead()) 
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		ATestProjectGDS6GameModeBase* GameMode = GetWorld()->GetAuthGameMode<ATestProjectGDS6GameModeBase>();
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
+	}
 
 	return DamageToApply;
 }

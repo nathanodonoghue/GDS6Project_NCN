@@ -3,3 +3,8 @@
 
 #include "TestProjectGDS6GameModeBase.h"
 
+
+void ATestProjectGDS6GameModeBase::PawnKilled(APawn* PawnKilled)
+{
+
+}
