@@ -3,8 +3,11 @@
 
 #include "TestFPSCharacter.h"
 #include "Gauntlet.h"
+#include "InteractionObject.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerController.h"
+#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "ObjectInteraction.h"
 #include "TestProjectGDS6GameModeBase.h"
 
 // Sets default values
@@ -52,8 +55,7 @@ void ATestFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &ATestFPSCharacter::LookRightRate);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &ATestFPSCharacter::Attack);
-
-	//PlayerInputComponent->BindAction(TEXT("Interact"), EInputEvent::IE_Pressed, this, &ATestFPSCharacter::GetObjInter);
+	PlayerInputComponent->BindAction(TEXT("Interact"), EInputEvent::IE_Pressed, this, &ATestFPSCharacter::Interact);
 }
 
 float ATestFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -100,5 +102,27 @@ void ATestFPSCharacter::LookRightRate(float AxisValue)
 void ATestFPSCharacter::Attack()
 {
 	Gauntlet->PullTrigger();
+}
+
+void ATestFPSCharacter::Interact()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Interaction button pressed"));
+
+	FHitResult OutHit;
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotation);
+
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+
+	if (GetWorld()->LineTraceSingleByChannel(OutHit, PlayerViewPointLocation, LineTraceEnd, ECC_Visibility))
+	{
+		AInteractionObject* Obj = Cast<AInteractionObject>(OutHit.Actor);
+		if (Obj)
+		{
+			Obj->InteractWith();
+		}
+	}
 }
 

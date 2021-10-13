@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InteractionObject.h"
 #include "TestFPSCharacter.generated.h"
 
 class AGauntlet;
@@ -34,6 +35,7 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	void Attack();
+	void Interact();
 
 private:
 	void MoveForward(float AxisValue);
@@ -48,10 +50,15 @@ private:
 		float MaxHealth = 100;
 	UPROPERTY(VisibleAnywhere)
 		float Health;
+	UPROPERTY(EditAnywhere)
+		float Reach = 300;
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AGauntlet> WeaponClass;
 
 	UPROPERTY()
 		AGauntlet* Gauntlet;
+
+	UPROPERTY()
+		AInteractionObject* Interactable;
 };
