@@ -67,13 +67,15 @@ float ATestFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 
 	if (IsDead()) 
 	{
-		DetachFromControllerPendingDestroy();
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		ATestProjectGDS6GameModeBase* GameMode = GetWorld()->GetAuthGameMode<ATestProjectGDS6GameModeBase>();
+
 		if (GameMode != nullptr)
 		{
 			GameMode->PawnKilled(this);
 		}
+		
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
 	return DamageToApply;

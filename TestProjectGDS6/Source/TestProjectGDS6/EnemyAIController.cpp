@@ -5,6 +5,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "TestFPSCharacter.h"
 
 void AEnemyAIController::BeginPlay()
 {
@@ -24,4 +25,15 @@ void AEnemyAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+}
+
+bool AEnemyAIController::IsDead() const
+{
+	ATestFPSCharacter* ControlledCharacter = Cast<ATestFPSCharacter>(GetPawn());
+	if (ControlledCharacter != nullptr)
+	{
+		return ControlledCharacter->IsDead();
+	}
+
+	return true;
 }

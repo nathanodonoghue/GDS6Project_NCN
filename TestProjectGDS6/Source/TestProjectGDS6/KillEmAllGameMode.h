@@ -16,4 +16,7 @@ class TESTPROJECTGDS6_API AKillEmAllGameMode : public ATestProjectGDS6GameModeBa
 	
 public:
 	virtual void PawnKilled(APawn* PawnKilled) override;
+
+private:
+	void EndGame(bool bIsPlayerWinner);
 };
