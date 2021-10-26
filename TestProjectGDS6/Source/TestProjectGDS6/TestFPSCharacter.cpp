@@ -35,6 +35,11 @@ bool ATestFPSCharacter::IsDead() const
 	return Health <= 0;
 }
 
+float ATestFPSCharacter::GetHealthPercent() const
+{
+	return Health / MaxHealth;
+}
+
 // Called every frame
 void ATestFPSCharacter::Tick(float DeltaTime)
 {
